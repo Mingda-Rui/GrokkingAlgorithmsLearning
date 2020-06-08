@@ -11,7 +11,16 @@ def quicksort(array):
     print(greater)
     return quicksort(less) + [pivot] + quicksort(greater)
 
-# def quicksort_notWorking(array):
+def quicksort_example_code(array):
+    if len(array) < 2:
+        return array
+    else:
+        pivot = array[0]
+        less = [i for i in array[1:] if i <= pivot]
+        greater = [i for i in array[1:] if i > pivot]
+        return quicksort_example_code(less) + [pivot] + quicksort_example_code(greater)
+
+# def quicksort_not_working(array):
 #     if len(array) <= 1: return array
 #     if len(array) == 2: return array if array[0] <= array[1] else [array[1], array[0]]
 #     pivotIndex = 0
