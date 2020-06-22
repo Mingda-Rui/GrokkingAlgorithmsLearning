@@ -2,7 +2,7 @@ infinity = float("inf")
 start = "start"
 finish = "finish"
 
-def create_graph_exercise_7_1() -> dict:
+def create_graph_exercise_7_2() -> dict:
     graph = {}
     graph["start"] = {}; graph["start"]["a"] = 10
     graph["a"] = {}; graph["a"]["b"] = 20
@@ -10,6 +10,17 @@ def create_graph_exercise_7_1() -> dict:
     graph["c"] = {}; graph["c"]["a"] = 1
     graph["finish"] = {}
     return graph
+
+
+def create_graph_exercise_7_3() -> dict:
+    graph = {}
+    graph["start"] = {}; graph["start"]["a"] = 2; graph["start"]["b"] = 2
+    graph["a"] = {}; graph["a"]["finish"] = 2; graph["a"]["c"] = 2
+    graph["b"] = {}; graph["b"]["a"] = 2
+    graph["c"] = {}; graph["c"]["finish"] = 2; graph["c"]["b"] = -1
+    graph["finish"] = {}
+    return graph
+
 
 def find_lowest_node(costs: dict, processed: set) -> str:
     lowest_weight = 0
@@ -56,5 +67,8 @@ def shorest_path_printer(graph: dict) -> None:
     print("Distance to fin: {}".format(costs[finish]))
     print_path(parents)
 
-graph = create_graph_exercise_7_1()
+graph = create_graph_exercise_7_2()
+shorest_path_printer(graph)
+
+graph = create_graph_exercise_7_3()
 shorest_path_printer(graph)
