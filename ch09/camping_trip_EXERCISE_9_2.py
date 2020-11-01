@@ -7,7 +7,14 @@ from random import shuffle
 # Jacket, 2 lb, 5
 # Camera, 1 lb, 6
 
-capacity = 6
+def init() -> None:
+    global items
+    global table
+    global randomized_items
+    items = init_items()
+    table = init_table(items)
+    randomized_items = randomize_item_list(items)
+
 
 def init_items() -> dict:
     items = {}
@@ -18,6 +25,12 @@ def init_items() -> dict:
     items["Camera"] = {"weight" : 1, "rate" : 6 }
     return items
 
+def init_table(items: dict) -> list:
+    global capacity
+    if capacity == 0:
+        capacity = get_max_weight(items)
+    return [[None] * capacity for _ in range(len(items))]
+
 def get_max_weight(items: dict) -> int:
     max_weight = 0
     for _, spec in items.items():
@@ -25,20 +38,10 @@ def get_max_weight(items: dict) -> int:
             max_weight = spec["weight"]
     return max_weight
 
-def init_table(items: dict) -> list:
-    global capacity
-    if capacity == 0:
-        capacity = get_max_weight(items)
-    return [[None] * capacity for _ in range(len(items))]
-
 def randomize_item_list(items: dict) -> list:
     item_list = list(items)
     shuffle(item_list)
     return item_list
-
-items = init_items()
-table = init_table(items)
-randomized_items = randomize_item_list(items)
 
 def populate_table(table: dict) -> None:
     if len(table) != len(randomized_items):
@@ -67,8 +70,8 @@ def populate_table(table: dict) -> None:
                 else:
                     table[i][j] = table[i-1][j]
             else:
-                weight_reminder = curr_weight - weight
-                rate_sum = item['rate'] + table[i-1][weight_reminder-1]
+                reminder_index = j - weight
+                rate_sum = item['rate'] + table[i-1][reminder_index]
                 if rate_sum > table[i-1][j]:
                     table[i][j] = rate_sum
                 else:
@@ -85,6 +88,11 @@ def print_table(table: dict) -> None:
             print("{:>5d}".format(row[j]), end = '')
         print()
 
+capacity = 6
+items = None
+table = None
+randomized_items = None
+
+init()
 populate_table(table)
 print_table(table)
-
